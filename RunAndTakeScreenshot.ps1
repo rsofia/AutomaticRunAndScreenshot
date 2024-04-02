@@ -5,16 +5,8 @@ $ExeName = $(throw "We meed the name of the .exe file!")
 )
 
 
-
 $myexepath = "$Path\Build\$ExeName"
-
-
-function ExecuteExe
-{
-	
-	Start-Process -FilePath $myexepath
-
-}
+ 
 
 function TakeScreenshot
 {
@@ -42,10 +34,16 @@ function TakeScreenshot
 for($i = 0; $i -lt $Num; $i++)
 {
 	Write-Output "Iteration $i"
-	ExecuteExe $myexepath 
+	
+	$runningApp = Start-Process -FilePath $myexepath -PassThru
+	
 	Start-Sleep -s 3
+	
 	TakeScreenshot $myscreenshotpath $i
-	Start-Sleep -s 1
+	
+	Start-Sleep -s 2
+	
+	Stop-Process $runningApp
 }
 
 
